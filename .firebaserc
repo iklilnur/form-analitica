@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "analitica-cb117"
+  },
+  "targets": {
+    "analitica-cb117": {
+      "hosting": {
+        "form-analitica": [
+          "form-analitica"
+        ]
+      }
+    }
+  }
+}
