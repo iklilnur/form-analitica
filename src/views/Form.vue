@@ -116,7 +116,17 @@
                                         >
                                     </b-form-datepicker>
                                 </b-form-group>
-                                
+
+                                <!-- Type SingleCheckBox -->
+                                <b-form-checkbox
+                                    class="mt-2 mb-2"
+                                    v-else-if="f.type == 'SingleCheckBox'"
+                                    :id="f.name"
+                                    v-model="dummySingleCheckBox[f.name]"
+                                    :required="f.isRequired"
+                                >
+                                    {{ f.text }}
+                                </b-form-checkbox>
 
                                 <!-- Type DynamicDropdown -->
                                 <b-form-group 
@@ -174,7 +184,7 @@
 
                             </b-col>
                         </b-row>
-                        <b class="mt-5" style="font-size:14px"><i>Note </i>: * artinya wajib diisi.</b>
+                        <p class="mt-5" style="font-size:14px;"><b><i>Note </i>: * artinya wajib diisi.</b></p>
                         <hr class="w-100">
                         <center>
                             <p class="error-message" v-if="errorMessage !== ''">{{ errorMessage }}</p>
@@ -368,7 +378,8 @@ export default {
             form: "",
             fid: "",
             newEntry: {},
-            dummyFile: [],
+            dummyFile: {},
+            dummySingleCheckBox: {},
             textFormTypes:{
                 "EmailField":"email",
                 "TextField":"text",
@@ -559,7 +570,8 @@ export default {
                 f.type !== 'DescriptionText' && 
                 f.type !== 'pFileUpload' && 
                 f.type !== 'AnaliticaAccount' &&
-                f.type !== 'Divider'
+                f.type !== 'Divider' &&
+                f.type !== 'SingleCheckBox'
                 ){
                 vm.$set(vm.newEntry, f.name, "");
             }
@@ -581,6 +593,9 @@ export default {
                 }
 
                f.fTypes = fTypes;
+            }
+            if(f.type == 'SingleCheckBox'){
+                vm.$set(vm.dummySingleCheckBox, f.name, false);
             }
             Object.keys(vm.query).forEach(q => {
                 if(q == f.name){
