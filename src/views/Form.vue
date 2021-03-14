@@ -143,16 +143,17 @@
                                     :label-for="f.name"
                                     >
                                     <p>Format ( {{ f.fTypes }} )</p>
+                                    <vue-dropzone v-if="f.isMultiple" :ref="f.name" :id="f.name" :options="f.fOptions"></vue-dropzone>
                                     <b-form-file
+                                        v-else
                                         v-model="dummyFile[f.name]"
                                         :id="f.name"
                                         :state="Boolean(dummyFile[f.name])"
                                         :accept="f.fTypes"
                                         :required="f.isRequired"
-                                        :multiple="f.isMultiple"
                                         placeholder="Choose a file or drop it here..."
                                         drop-placeholder="Drop file here..."
-                                        ></b-form-file>
+                                    ></b-form-file>
                                 </b-form-group>
 
                                 <!-- Type Text Field -->
@@ -356,7 +357,7 @@
 </template>
 
 <script>
-
+import vueDropzone from "vue2-dropzone";
 import firebase from '../plugins/firebase.js'
 
 export default {
@@ -391,14 +392,34 @@ export default {
             isSubmittingForm: false,
         }
     },
+    components:{
+        vueDropzone
+    },
     methods:{
         async onSubmit(event){
             const vm = this;
             const createFormResponse = firebase.app().functions('asia-southeast2').httpsCallable('createFormResponse');
 
+            console.log("tes")
+            vm.errorMessage = "";
+
             event.preventDefault()
 
-            console.log(vm.newEntry)
+            let submitOk = true;
+
+            vm.form.segments.forEach(f => {
+                if(f.type == 'pFileUpload'){
+                    if(f.isMultiple == true && f.isRequired == true){
+                        if(vm.$refs[f.name][0].getAcceptedFiles().length > 0 && vm.$refs[f.name][0].getUploadingFiles().length == 0){
+                            submitOk = true
+                        }
+                        else{
+                            submitOk = false
+                            vm.errorMessage = "Terdapat file wajib yang belum diupload atau sedang proses upload."
+                        }
+                    }
+                }
+            })
 
             if(
                 vm.currentUser == '' || 
@@ -408,7 +429,7 @@ export default {
                 vm.loginRequired == true){
                 vm.errorMessage = "Form ini mengharuskan kamu untuk login akun Analitica."
             }
-            else{
+            else if(submitOk == true){
                 vm.isSubmittingForm = true;
 
                 await createFormResponse({
@@ -487,6 +508,17 @@ export default {
                         vm.errorModal = "Terlalu banyak percobaan login yang gagal, coba beberapa saat lagi."
                     }
                 });
+        },
+        cekDropzone(){
+            const vm = this;
+            vm.form.segments.forEach(f => {
+                if(f.type == 'pFileUpload'){
+                    if(f.isMultiple == true){
+                        console.log(vm.$refs[f.name][0])
+                        console.log(vm.$refs[f.name][0].getAcceptedFiles())
+                    }
+                }
+            })
         }
     },
     async beforeMount(){
@@ -541,9 +573,16 @@ export default {
                     fTypes = fTypes + type + ', ' + type2 + ', ';
                 })
 
+                f.fOptions = {
+                    url: "https://httpbin.org/post",
+                    maxFilesize: f.maxSize, // MB
+                    addRemoveLinks: true,
+                    acceptedFiles: fTypes
+                }
+
                f.fTypes = fTypes;
             }
-            Object.keys(vm.query).forEach(async q => {
+            Object.keys(vm.query).forEach(q => {
                 if(q == f.name){
                     vm.newEntry[f.name] = vm.query[q];
                 }
