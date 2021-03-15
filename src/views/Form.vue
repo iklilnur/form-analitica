@@ -5,7 +5,8 @@
       v-if="isLoading"
       style="
         min-height: 100vh !important;
-        background-color: rgba(236, 0, 140, 0.2);
+        background-color: #f4f7fb;
+        background-image: url('https://jtvgoldenticket.analitica.id/assets/demo/bg/bg-20.png');
         padding-right: 0px;
         padding-left: 0px;
       "
@@ -31,228 +32,250 @@
       fluid
       v-if="!isLoading"
       style="
-        background-color: rgba(236, 0, 140, 0.2);
+        background-color: #f4f7fb;
         padding-bottom: 50px;
         padding-right: 0px;
         padding-left: 0px;
       "
     >
-      <b-row class="w-100 py-5 p-md-5" align-v="center">
-        <b-col
-          class="px-5 pt-sm-3 pb-sm-3 pt-md-5 pb-md-5 text-center"
-          cols="12"
+      <section id="logo" class="vc_row pb-50" style="background-color: #4d4e84">
+        <div class="container">
+          <div class="row text-center pt-5" id="logo">
+            <div class="col text-center">
+              <img
+                class="text-center"
+                src="../assets/golden-ticket-logo-fix.png"
+                style="width: 100%; max-width: 400px"
+              />
+            </div>
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.container -->
+      </section>
+      <section id="form">
+        <b-row
+          style="background-color: #f4f7fb"
+          class="w-100 py-5 p-md-5"
+          align-v="center"
         >
-          <img
-            src="../assets/golden-ticket-logo-fix.png"
-            style="width: 100%; max-width: 400px"
-          />
-        </b-col>
-        <b-col md="12">
-          <b-card
-            class="p-sm-1 p-md-5 mx-sm-1 mx-md-auto"
-            style="max-width: 700px"
-          >
-            <b-form @submit="onSubmit">
-              <b-row v-for="f in form.segments" :key="f.name">
-                <b-col cols="12" class="text-left">
-                  <!-- Type HeaderText -->
-                  <h4 class="text-center mt-3 mb-5" v-if="f.type == 'HeaderText'">
-                    {{ f.text }}
-                  </h4>
-
-                  <!-- Type DescriptionText -->
-                  <p
-                    class="text-justify mt-3 mb-3"
-                    v-else-if="f.type == 'DescriptionText'"
-                  >
-                    {{ f.text }}
-                  </p>
-
-                  <!-- Type LinkText -->
-                  <a
-                    v-else-if="f.type == 'LinkText'"
-                    class="mb-3 mt-3"
-                    :href="f.link"
-                  >
-                    {{ f.text }}
-                  </a>
-
-                  <!-- Type Divider -->
-                  <hr v-else-if="f.type == 'Divider'" class="w-100 mb-4 mt-4" />
-
-                  <!-- Login Analitica -->
-                  <b-form-group
-                    v-else-if="f.type == 'AnaliticaAccount' && loginRequired"
-                    class="mb-sm-2 mb-md-3"
-                    label="Akun Analitica *"
-                    label-for="analitica-account"
-                  >
-                    <p
-                      v-if="currentUser == ''"
-                      class="button-submit w-100 text-center"
-                      @click="modal.modalLogin = true"
-                    >
-                      Login Akun Analitica
-                    </p>
-                    <b-form-input
-                      v-else
-                      id="analitica-account"
-                      v-model="currentEmail"
-                      type="email"
-                      :placeholder="currentEmail"
-                      disabled
-                    ></b-form-input>
-                    <p
-                      v-if="currentUser !== ''"
-                      class="button-submit mt-2"
-                      @click="modal.modalLogin = true"
-                    >
-                      Ganti Akun Analitica
-                    </p>
-                  </b-form-group>
-
-                  <!-- Type MultipleChoice (Radio) -->
-                  <b-form-group
-                    v-else-if="f.type == 'MultipleChoice'"
-                    class="mb-sm-2 mb-md-3"
-                    :label="f.isRequired == true ? f.label + ' *' : f.label"
-                    :label-for="f.name"
-                  >
-                    <b-form-radio-group
-                      :id="f.name"
-                      v-model="newEntry[f.name]"
-                      :options="f.options"
-                      :required="f.isRequired"
-                    ></b-form-radio-group>
-                  </b-form-group>
-
-                  <!-- Type DateField -->
-                  <b-form-group
-                    v-else-if="f.type == 'DateField'"
-                    class="mb-sm-2 mb-md-3"
-                    :label="f.isRequired == true ? f.label + ' *' : f.label"
-                    :label-for="f.name"
-                  >
-                    <b-form-datepicker
-                      :id="f.name"
-                      v-model="newEntry[f.name]"
-                      :required="f.isRequired"
-                    >
-                    </b-form-datepicker>
-                  </b-form-group>
-
-                  <!-- Type SingleCheckBox -->
-                  <b-form-checkbox
-                    class="mt-2 mb-2"
-                    v-else-if="f.type == 'SingleCheckBox'"
-                    :id="f.name"
-                    v-model="dummySingleCheckBox[f.name]"
-                    :required="f.isRequired"
-                  >
-                    {{ f.text }}
-                  </b-form-checkbox>
-
-                  <!-- Type DynamicDropdown -->
-                  <b-form-group
-                    v-else-if="f.type == 'DynamicDropdown'"
-                    class="mb-sm-2 mb-md-3"
-                    :label="f.isRequired == true ? f.label + ' *' : f.label"
-                    :label-for="f.name"
-                  >
-                    <b-form-select
-                      :id="f.name"
-                      v-model="newEntry[f.name]"
-                      :options="
-                        f.target ? f.options[newEntry[f.target]] : f.options
-                      "
-                      :required="f.isRequired"
-                      :disabled="newEntry[f.target] == '' ? true : false"
-                    >
-                    </b-form-select>
-                  </b-form-group>
-
-                  <!-- Type pFileUpload -->
-                  <b-form-group
-                    v-else-if="f.type == 'pFileUpload'"
-                    class="mb-sm-2 mb-md-3"
-                    :label="f.isRequired == true ? f.label + ' *' : f.label"
-                    :label-for="f.name"
-                  >
-                    <p>Format ( {{ f.fTypes }} )</p>
-                    <vue-dropzone
-                      v-if="f.isMultiple"
-                      :ref="f.name"
-                      :id="f.name"
-                      :options="f.fOptions"
-                    ></vue-dropzone>
-                    <b-form-file
-                      v-else
-                      v-model="dummyFile[f.name]"
-                      :id="f.name"
-                      :state="Boolean(dummyFile[f.name])"
-                      :accept="f.fTypes"
-                      :required="f.isRequired"
-                      placeholder="Choose a file or drop it here..."
-                      drop-placeholder="Drop file here..."
-                    ></b-form-file>
-                  </b-form-group>
-
-                  <!-- Type Text Field -->
-                  <b-form-group
-                    v-else
-                    class="mb-sm-2 mb-md-4"
-                    :label="f.isRequired == true ? f.label + ' *' : f.label"
-                    :label-for="f.name"
-                  >
-                    <b-form-input
-                      :id="f.name"
-                      v-model="newEntry[f.name]"
-                      :type="textFormTypes[`${f.type}`]"
-                      :placeholder="f.placeholder ? f.placeholder : ''"
-                      :required="f.isRequired"
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-              </b-row>
-              <p class="mt-5" style="font-size: 14px">
-                <b><i>Note </i>: * artinya wajib diisi.</b>
-              </p>
-              <hr class="w-100" />
-              <center>
-                <p class="error-message" v-if="errorMessage !== ''">
-                  {{ errorMessage }}
-                </p>
-                <button class="button-submit mt-3" type="submit">
-                  Submit
-                  <b-spinner
-                    style="height: 16px; width: 16px"
-                    class="ml-2"
-                    v-show="isSubmittingForm"
-                  >
-                  </b-spinner>
-                </button>
-              </center>
-            </b-form>
-          </b-card>
-        </b-col>
-        <b-col class="text-center mt-5 p-5" cols="12">
-          <hr style="max-width: 800px; background-color: black" />
-          <b
-            >Jika terdapat pertanyaan, silahkan bertanya pada narahubung kami
-            atau melalui: </b
-          ><br />
-          <a href="https://t.me/joinchat/Hwf24kqljuZmRGRF" target="_blank">
-            <b-button
-              size="lg"
-              class="mt-3"
-              variant="info"
-              style="border-radius: 20px"
+          <b-col md="12">
+            <b-card
+              class="p-sm-1 p-md-5 mx-sm-1 mx-md-auto"
+              style="
+                box-shadow: 0px 0px 10px 0px rgb(59 115 197 / 25%);
+                max-width: 700px;
+                border-radius: 3em;
+              "
             >
-              Grup Telegram
-            </b-button>
-          </a>
-        </b-col>
-      </b-row>
+              <b-form @submit="onSubmit">
+                <b-row v-for="f in form.segments" :key="f.name">
+                  <b-col cols="12" class="text-left">
+                    <!-- Type HeaderText -->
+                    <h4
+                      class="text-center mt-3 mb-5"
+                      v-if="f.type == 'HeaderText'"
+                    >
+                      {{ f.text }}
+                    </h4>
+
+                    <!-- Type DescriptionText -->
+                    <p
+                      class="text-justify mt-3 mb-3"
+                      v-else-if="f.type == 'DescriptionText'"
+                    >
+                      {{ f.text }}
+                    </p>
+
+                    <!-- Type LinkText -->
+                    <a
+                      v-else-if="f.type == 'LinkText'"
+                      class="mb-3 mt-3"
+                      :href="f.link"
+                    >
+                      {{ f.text }}
+                    </a>
+
+                    <!-- Type Divider -->
+                    <hr
+                      v-else-if="f.type == 'Divider'"
+                      class="w-100 mb-4 mt-4"
+                    />
+
+                    <!-- Login Analitica -->
+                    <b-form-group
+                      v-else-if="f.type == 'AnaliticaAccount' && loginRequired"
+                      class="mb-sm-2 mb-md-3"
+                      label="Akun Analitica *"
+                      label-for="analitica-account"
+                    >
+                      <p
+                        v-if="currentUser == ''"
+                        class="button-submit w-100 text-center"
+                        @click="modal.modalLogin = true"
+                      >
+                        Login Akun Analitica
+                      </p>
+                      <b-form-input
+                        v-else
+                        id="analitica-account"
+                        v-model="currentEmail"
+                        type="email"
+                        :placeholder="currentEmail"
+                        disabled
+                      ></b-form-input>
+                      <p
+                        v-if="currentUser !== ''"
+                        class="button-submit mt-2"
+                        @click="modal.modalLogin = true"
+                      >
+                        Ganti Akun Analitica
+                      </p>
+                    </b-form-group>
+
+                    <!-- Type MultipleChoice (Radio) -->
+                    <b-form-group
+                      v-else-if="f.type == 'MultipleChoice'"
+                      class="mb-sm-2 mb-md-3"
+                      :label="f.isRequired == true ? f.label + ' *' : f.label"
+                      :label-for="f.name"
+                    >
+                      <b-form-radio-group
+                        :id="f.name"
+                        v-model="newEntry[f.name]"
+                        :options="f.options"
+                        :required="f.isRequired"
+                      ></b-form-radio-group>
+                    </b-form-group>
+
+                    <!-- Type DateField -->
+                    <b-form-group
+                      v-else-if="f.type == 'DateField'"
+                      class="mb-sm-2 mb-md-3"
+                      :label="f.isRequired == true ? f.label + ' *' : f.label"
+                      :label-for="f.name"
+                    >
+                      <b-form-datepicker
+                        :id="f.name"
+                        v-model="newEntry[f.name]"
+                        :required="f.isRequired"
+                      >
+                      </b-form-datepicker>
+                    </b-form-group>
+
+                    <!-- Type SingleCheckBox -->
+                    <b-form-checkbox
+                      class="mt-2 mb-2"
+                      v-else-if="f.type == 'SingleCheckBox'"
+                      :id="f.name"
+                      v-model="dummySingleCheckBox[f.name]"
+                      :required="f.isRequired"
+                    >
+                      {{ f.text }}
+                    </b-form-checkbox>
+
+                    <!-- Type DynamicDropdown -->
+                    <b-form-group
+                      v-else-if="f.type == 'DynamicDropdown'"
+                      class="mb-sm-2 mb-md-3"
+                      :label="f.isRequired == true ? f.label + ' *' : f.label"
+                      :label-for="f.name"
+                    >
+                      <b-form-select
+                        :id="f.name"
+                        v-model="newEntry[f.name]"
+                        :options="
+                          f.target ? f.options[newEntry[f.target]] : f.options
+                        "
+                        :required="f.isRequired"
+                        :disabled="newEntry[f.target] == '' ? true : false"
+                      >
+                      </b-form-select>
+                    </b-form-group>
+
+                    <!-- Type pFileUpload -->
+                    <b-form-group
+                      v-else-if="f.type == 'pFileUpload'"
+                      class="mb-sm-2 mb-md-3"
+                      :label="f.isRequired == true ? f.label + ' *' : f.label"
+                      :label-for="f.name"
+                    >
+                      <p>Format ( {{ f.fTypes }} )</p>
+                      <vue-dropzone
+                        v-if="f.isMultiple"
+                        :ref="f.name"
+                        :id="f.name"
+                        :options="f.fOptions"
+                      ></vue-dropzone>
+                      <b-form-file
+                        v-else
+                        v-model="dummyFile[f.name]"
+                        :id="f.name"
+                        :state="Boolean(dummyFile[f.name])"
+                        :accept="f.fTypes"
+                        :required="f.isRequired"
+                        placeholder="Choose a file or drop it here..."
+                        drop-placeholder="Drop file here..."
+                      ></b-form-file>
+                    </b-form-group>
+
+                    <!-- Type Text Field -->
+                    <b-form-group
+                      v-else
+                      class="mb-sm-2 mb-md-4"
+                      :label="f.isRequired == true ? f.label + ' *' : f.label"
+                      :label-for="f.name"
+                    >
+                      <b-form-input
+                        :id="f.name"
+                        v-model="newEntry[f.name]"
+                        :type="textFormTypes[`${f.type}`]"
+                        :placeholder="f.placeholder ? f.placeholder : ''"
+                        :required="f.isRequired"
+                      ></b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <p class="mt-5" style="font-size: 14px">
+                  <b><i>Note </i>: * artinya wajib diisi.</b>
+                </p>
+                <hr class="w-100" />
+                <center>
+                  <p class="error-message" v-if="errorMessage !== ''">
+                    {{ errorMessage }}
+                  </p>
+                  <button class="button-submit mt-3" type="submit">
+                    Submit
+                    <b-spinner
+                      style="height: 16px; width: 16px"
+                      class="ml-2"
+                      v-show="isSubmittingForm"
+                    >
+                    </b-spinner>
+                  </button>
+                </center>
+              </b-form>
+            </b-card>
+          </b-col>
+          <b-col class="text-center mt-5 p-5" cols="12">
+            <hr style="max-width: 800px; background-color: black" />
+            <b
+              >Jika terdapat pertanyaan, silahkan bertanya pada narahubung kami
+              atau melalui: </b
+            ><br />
+            <a href="https://t.me/joinchat/Hwf24kqljuZmRGRF" target="_blank">
+              <b-button
+                size="lg"
+                class="mt-3"
+                variant="info"
+                style="border-radius: 20px"
+              >
+                Grup Telegram
+              </b-button>
+            </a>
+          </b-col>
+        </b-row>
+      </section>
     </b-container>
 
     <!-- Modal Login -->
@@ -340,7 +363,7 @@
       </center>
     </b-modal>
     <footer id="contact" class="main-footer pt-80">
-      <section class="pb-50">
+      <section class="pb-10">
         <div class="container">
           <div class="row">
             <div class="lqd-column col-md-5">
@@ -775,23 +798,58 @@ export default {
 };
 </script>
 <style>
-@font-face { font-family: 'Glacial Indifference'; src: url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Regular.woff2") format("woff2"), url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Regular.woff") format("woff"); font-weight: normal; font-display: swap; font-style: normal; }
-@font-face { font-family: 'Glacial Indifference'; src: url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Bold.woff2") format("woff2"), url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Bold.woff") format("woff"); font-weight: bold; font-display: swap; font-style: normal; }
-html, body { max-width: 100vw; }
-.text-secondary {
-    color:#ff546c!important;
+.dropzone {
+  border-style: dotted !important;
+  border-color: rgb(0, 195, 255) !important;
 }
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
-  font-weight: 700!important;
+@font-face {
+  font-family: "Glacial Indifference";
+  src: url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Regular.woff2")
+      format("woff2"),
+    url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Regular.woff")
+      format("woff");
+  font-weight: normal;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Glacial Indifference";
+  src: url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Bold.woff2")
+      format("woff2"),
+    url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Bold.woff")
+      format("woff");
+  font-weight: bold;
+  font-display: swap;
+  font-style: normal;
+}
+html,
+body {
+  max-width: 100vw;
+}
+.text-secondary {
+  color: #ff546c !important;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-weight: 700 !important;
 }
 
 body {
-    font-family: Glacial Indifference!important;
-    font-weight: 400!important;
-    line-height: 1.7!important;
-    font-size: 18px!important;
-    color: #8b8cb3!important;
+  font-family: Glacial Indifference !important;
+  font-weight: 400 !important;
+  line-height: 1.7 !important;
+  font-size: 18px !important;
+  color: #8b8cb3 !important;
 }
 
 .button-submit {
