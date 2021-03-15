@@ -12,12 +12,17 @@
     >
       <b-row align-v="center" style="min-height: 100vh">
         <b-col align-self="center" class="text-center">
-          <b-spinner
-            style="width: 3rem; height: 3rem"
-            label="Large Spinner"
-            v-if="isLoading"
-          >
-          </b-spinner>
+            <b-spinner
+                style="width: 3rem; height: 3rem"
+                label="Large Spinner"
+                v-if="isLoading"
+            >
+            </b-spinner>
+            <p v-if="accountAlreadySubmitted">
+                Akun Analitica dengan email <b>{{ loginUser.email }}</b> sudah pernah
+                mengisi form ini. Kamu dapat mengganti akun Analitica lain jika tetap
+                ingin mengisi form ini.
+            </p>
         </b-col>
       </b-row>
     </b-container>
@@ -510,6 +515,7 @@ export default {
       isSubmitting: false,
       isMobile: false,
       isSubmittingForm: false,
+      accountAlreadySubmitted: false,
     };
   },
   components: {
@@ -596,6 +602,7 @@ export default {
         .then(async (userCredential) => {
           // Signed in
           var user = userCredential.user;
+          console.log(vm.fid)
 
           await checkFormAvailability({
             uid: user.uid,
@@ -652,6 +659,10 @@ export default {
     const vm = this;
     const db = firebase.firestore();
     const MobileDetect = require("mobile-detect");
+    const checkFormAvailability = firebase
+        .app()
+        .functions("asia-southeast2")
+        .httpsCallable("checkFormAvailability");
     const checkAnaliticaUser = firebase
       .app()
       .functions("asia-southeast2")
@@ -728,10 +739,29 @@ export default {
       await checkAnaliticaUser({
         uid: vm.query["uid"],
       })
-        .then((res) => {
+        .then(async (res) => {
           if (res.data.msg == "exists") {
-            vm.currentUser = res.data.data;
-            vm.currentEmail = vm.currentUser.email;
+            let user = res.data.data;
+
+
+            await checkFormAvailability({
+                    uid: user.uid,
+                    fid: vm.fid,
+                })
+                .then((res) => {
+                    vm.isSubmitting = false;
+                    if (res.data == "notAvailable") {
+                        vm.accountAlreadySubmitted = true;
+                        vm.modal.modalNotAvailable = true;
+                    } else {
+                        vm.errorMessage = "";
+                        vm.currentUser = user
+                        vm.currentEmail = vm.currentUser.email;
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
           } else {
             console.log(res.data);
           }
@@ -740,7 +770,6 @@ export default {
           console.log(err);
         });
     }
-
     vm.isLoading = false;
   },
 };
