@@ -6,7 +6,6 @@
       style="
         min-height: 100vh !important;
         background-color: #f4f7fb;
-        background-image: url('https://jtvgoldenticket.analitica.id/assets/demo/bg/bg-20.png');
         padding-right: 0px;
         padding-left: 0px;
       "
@@ -38,7 +37,11 @@
         padding-left: 0px;
       "
     >
-      <section id="logo" class="vc_row pb-50" style="background-color: #4d4e84">
+      <section
+        id="logo"
+        class="vc_row pb-150"
+        style="background-color: #4d4e84"
+      >
         <div class="container">
           <div class="row text-center pt-5" id="logo">
             <div class="col text-center">
@@ -52,7 +55,23 @@
           <!-- /.row -->
         </div>
         <!-- /.container -->
+        <div class="one-row_bottom_divider pembatas" style="height: 180px">
+          <svg
+            fill="#4d4e84"
+            xmlns="http://www.w3.org/2000/svg"
+            width="100%"
+            height="182"
+            viewBox="0 0 1920 182"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M1921.91,916.348c0.33,39.216-.34,79.431,0,118.642Q957.95,1035.5-6,1035V853c40.431,10.8,81,19.794,122.5,27.149,62.957,11.157,117.371,15.375,180.742,21.116,79.864,7.236,165.843,26.989,255.045,42.232,109.142,18.65,243.949,40.091,308.265,44.243,137.637,8.886,313.056-2.783,504.066-36.2,127.4-22.286,223.4-43.261,354.45-45.248A1569.414,1569.414,0,0,1,1921.91,916.348Z"
+              transform="translate(0 -853)"
+            ></path>
+          </svg>
+        </div>
       </section>
+
       <section id="form">
         <b-row
           style="background-color: #f4f7fb"
@@ -63,6 +82,7 @@
             <b-card
               class="p-sm-1 p-md-5 mx-sm-1 mx-md-auto"
               style="
+                margin-top: -12%;
                 box-shadow: 0px 0px 10px 0px rgb(59 115 197 / 25%);
                 max-width: 700px;
                 border-radius: 3em;
