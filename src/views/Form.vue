@@ -12,17 +12,17 @@
     >
       <b-row align-v="center" style="min-height: 100vh">
         <b-col align-self="center" class="text-center">
-            <b-spinner
-                style="width: 3rem; height: 3rem"
-                label="Large Spinner"
-                v-if="isLoading"
-            >
-            </b-spinner>
-            <p v-if="accountAlreadySubmitted">
-                Akun Analitica dengan email <b>{{ loginUser.email }}</b> sudah pernah
-                mengisi form ini. Kamu dapat mengganti akun Analitica lain jika tetap
-                ingin mengisi form ini.
-            </p>
+          <b-spinner
+            style="width: 3rem; height: 3rem"
+            label="Large Spinner"
+            v-if="isLoading"
+          >
+          </b-spinner>
+          <p v-if="accountAlreadySubmitted">
+            Akun Analitica dengan email <b>{{ loginUser.email }}</b> sudah
+            pernah mengisi form ini. Kamu dapat mengganti akun Analitica lain
+            jika tetap ingin mengisi form ini.
+          </p>
         </b-col>
       </b-row>
     </b-container>
@@ -39,8 +39,8 @@
     >
       <section
         id="logo"
-        class="vc_row pb-150"
-        style="background-color: #4d4e84"
+        class="vc_row pb-150 main-footer"
+        style="background-color: #4d4e84; background-repeat: repeat"
       >
         <div class="container">
           <div class="row text-center pt-5" id="logo">
@@ -185,13 +185,13 @@
 
                     <!-- Type SingleCheckBox -->
                     <b-form-checkbox-group
-                        v-else-if="f.type == 'SingleCheckBox'"
-                        :options="[f.text]"
-                        :id="f.name"
-                        :checked="[]"
-                        v-model="dummySingleCheckBox[f.name]"
-                        :required="true"
-                        >
+                      v-else-if="f.type == 'SingleCheckBox'"
+                      :options="[f.text]"
+                      :id="f.name"
+                      :checked="[]"
+                      v-model="dummySingleCheckBox[f.name]"
+                      :required="true"
+                    >
                     </b-form-checkbox-group>
 
                     <!-- Type DynamicDropdown -->
@@ -275,12 +275,9 @@
                   </button>
                 </center>
               </b-form>
-              <b-card-text
-                class="text-center"
-                v-else
-              >
-                Akun kamu sudah terdaftar pada tryout ini.
-                Silahkan cek di aplikasi Analitica kamu.
+              <b-card-text class="text-center" v-else>
+                Akun kamu sudah terdaftar pada tryout ini. Silahkan cek di
+                aplikasi Analitica kamu.
               </b-card-text>
             </b-card>
           </b-col>
@@ -655,7 +652,7 @@ export default {
         .then(async (userCredential) => {
           // Signed in
           var user = userCredential.user;
-          console.log(vm.fid)
+          console.log(vm.fid);
 
           await checkFormAvailability({
             uid: user.uid,
@@ -713,9 +710,9 @@ export default {
     const db = firebase.firestore();
     const MobileDetect = require("mobile-detect");
     const checkFormAvailability = firebase
-        .app()
-        .functions("asia-southeast2")
-        .httpsCallable("checkFormAvailability");
+      .app()
+      .functions("asia-southeast2")
+      .httpsCallable("checkFormAvailability");
     const checkAnaliticaUser = firebase
       .app()
       .functions("asia-southeast2")
@@ -799,25 +796,24 @@ export default {
           if (res.data.msg == "exists") {
             let user = res.data.data;
 
-
             await checkFormAvailability({
-                    uid: user.uid,
-                    fid: vm.fid,
-                })
-                .then((res) => {
-                    vm.isSubmitting = false;
-                    if (res.data == "notAvailable") {
-                        vm.accountAlreadySubmitted = true;
-                        vm.loginUser.email = user.email;
-                    } else {
-                        vm.errorMessage = "";
-                        vm.currentUser = user
-                        vm.currentEmail = vm.currentUser.email;
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+              uid: user.uid,
+              fid: vm.fid,
+            })
+              .then((res) => {
+                vm.isSubmitting = false;
+                if (res.data == "notAvailable") {
+                  vm.accountAlreadySubmitted = true;
+                  vm.loginUser.email = user.email;
+                } else {
+                  vm.errorMessage = "";
+                  vm.currentUser = user;
+                  vm.currentEmail = vm.currentUser.email;
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+              });
           } else {
             console.log(res.data);
           }
