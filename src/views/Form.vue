@@ -188,7 +188,6 @@
                         v-else-if="f.type == 'SingleCheckBox'"
                         :options="[f.text]"
                         :id="f.name"
-                        :checked="[]"
                         v-model="dummySingleCheckBox[f.name]"
                         :required="true"
                         >
