@@ -51,17 +51,26 @@
               <b-row v-for="f in form.segments" :key="f.name">
                 <b-col cols="12" class="text-left">
                   <!-- Type HeaderText -->
-                  <h4 class="text-center mb-5" v-if="f.type == 'HeaderText'">
+                  <h4 class="text-center mt-3 mb-5" v-if="f.type == 'HeaderText'">
                     {{ f.text }}
                   </h4>
 
                   <!-- Type DescriptionText -->
                   <p
-                    class="text-justify mb-3"
+                    class="text-justify mt-3 mb-3"
                     v-else-if="f.type == 'DescriptionText'"
                   >
                     {{ f.text }}
                   </p>
+
+                  <!-- Type LinkText -->
+                  <a
+                    v-else-if="f.type == 'LinkText'"
+                    class="mb-3 mt-3"
+                    :href="f.link"
+                  >
+                    {{ f.text }}
+                  </a>
 
                   <!-- Type Divider -->
                   <hr v-else-if="f.type == 'Divider'" class="w-100 mb-4 mt-4" />
@@ -681,7 +690,8 @@ export default {
         f.type !== "pFileUpload" &&
         f.type !== "AnaliticaAccount" &&
         f.type !== "Divider" &&
-        f.type !== "SingleCheckBox"
+        f.type !== "SingleCheckBox" &&
+        f.type !== "LinkText"
       ) {
         vm.$set(vm.newEntry, f.name, "");
       }
