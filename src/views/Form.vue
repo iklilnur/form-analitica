@@ -51,7 +51,10 @@
               <b-row v-for="f in form.segments" :key="f.name">
                 <b-col cols="12" class="text-left">
                   <!-- Type HeaderText -->
-                  <h4 class="text-center mt-3 mb-5" v-if="f.type == 'HeaderText'">
+                  <h4
+                    class="text-center mt-3 mb-5"
+                    v-if="f.type == 'HeaderText'"
+                  >
                     {{ f.text }}
                   </h4>
 
@@ -746,23 +749,54 @@ export default {
 };
 </script>
 <style>
-@font-face { font-family: 'Glacial Indifference'; src: url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Regular.woff2") format("woff2"), url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Regular.woff") format("woff"); font-weight: normal; font-display: swap; font-style: normal; }
-@font-face { font-family: 'Glacial Indifference'; src: url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Bold.woff2") format("woff2"), url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Bold.woff") format("woff"); font-weight: bold; font-display: swap; font-style: normal; }
-html, body { max-width: 100vw; }
-.text-secondary {
-    color:#ff546c!important;
+@font-face {
+  font-family: "Glacial Indifference";
+  src: url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Regular.woff2")
+      format("woff2"),
+    url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Regular.woff")
+      format("woff");
+  font-weight: normal;
+  font-display: swap;
+  font-style: normal;
 }
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
-  font-weight: 700!important;
+@font-face {
+  font-family: "Glacial Indifference";
+  src: url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Bold.woff2")
+      format("woff2"),
+    url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Bold.woff")
+      format("woff");
+  font-weight: bold;
+  font-display: swap;
+  font-style: normal;
+}
+html,
+body {
+  max-width: 100vw;
+}
+.text-secondary {
+  color: #ff546c !important;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-weight: 700 !important;
 }
 
 body {
-    font-family: Glacial Indifference!important;
-    font-weight: 400!important;
-    line-height: 1.7!important;
-    font-size: 18px!important;
-    color: #8b8cb3!important;
+  font-family: Glacial Indifference !important;
+  font-weight: 400 !important;
+  line-height: 1.7 !important;
+  font-size: 18px !important;
+  color: #8b8cb3 !important;
 }
 
 .button-submit {
