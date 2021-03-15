@@ -68,7 +68,7 @@
                 border-radius: 3em;
               "
             >
-              <b-form @submit="onSubmit">
+              <b-form v-if="!accountAlreadySubmitted" @submit="onSubmit">
                 <b-row v-for="f in form.segments" :key="f.name">
                   <b-col cols="12" class="text-left">
                     <!-- Type HeaderText -->
@@ -164,15 +164,15 @@
                     </b-form-group>
 
                     <!-- Type SingleCheckBox -->
-                    <b-form-checkbox
-                      class="mt-2 mb-2"
-                      v-else-if="f.type == 'SingleCheckBox'"
-                      :id="f.name"
-                      v-model="dummySingleCheckBox[f.name]"
-                      :required="f.isRequired"
-                    >
-                      {{ f.text }}
-                    </b-form-checkbox>
+                    <b-form-checkbox-group
+                        v-else-if="f.type == 'SingleCheckBox'"
+                        :options="[f.text]"
+                        :id="f.name"
+                        :checked="[]"
+                        v-model="dummySingleCheckBox[f.name]"
+                        :required="true"
+                        >
+                    </b-form-checkbox-group>
 
                     <!-- Type DynamicDropdown -->
                     <b-form-group
@@ -200,7 +200,7 @@
                       :label="f.isRequired == true ? f.label + ' *' : f.label"
                       :label-for="f.name"
                     >
-                      <p>Format ( {{ f.fTypes }} )</p>
+                      <p>Format ( {{ f.fTypesLabel }} )</p>
                       <vue-dropzone
                         v-if="f.isMultiple"
                         :ref="f.name"
@@ -255,6 +255,13 @@
                   </button>
                 </center>
               </b-form>
+              <b-card-text
+                class="text-center"
+                v-else
+              >
+                Akun kamu sudah terdaftar pada tryout ini.
+                Silahkan cek di aplikasi Analitica kamu.
+              </b-card-text>
             </b-card>
           </b-col>
           <b-col class="text-center mt-5 p-5" cols="12">
@@ -335,6 +342,8 @@
       v-model="modal.modalNotAvailable"
       id="modal-account-not-available"
       title="Peringatan"
+      no-close-on-backdrop
+      no-close-on-esc
       hide-footer
     >
       <div>
@@ -362,6 +371,7 @@
         </button>
       </center>
     </b-modal>
+
     <footer id="contact" class="main-footer pt-80">
       <section class="pb-10">
         <div class="container">
@@ -731,12 +741,14 @@ export default {
       }
       if (f.type == "pFileUpload") {
         let fTypes = "";
+        let fTypesLabel = "";
         vm.$set(vm.dummyFile, f.name, []);
 
         f.fileTypes.forEach((ft) => {
           let type = "." + ft.toLowerCase();
           let type2 = "." + ft.toUpperCase();
           fTypes = fTypes + type + ", " + type2 + ", ";
+          fTypesLabel = fTypesLabel + type + ", ";
         });
 
         f.fOptions = {
@@ -747,6 +759,7 @@ export default {
         };
 
         f.fTypes = fTypes;
+        f.fTypesLabel = fTypesLabel;
       }
       if (f.type == "SingleCheckBox") {
         vm.$set(vm.dummySingleCheckBox, f.name, false);
@@ -775,7 +788,7 @@ export default {
                     vm.isSubmitting = false;
                     if (res.data == "notAvailable") {
                         vm.accountAlreadySubmitted = true;
-                        vm.modal.modalNotAvailable = true;
+                        vm.loginUser.email = user.email;
                     } else {
                         vm.errorMessage = "";
                         vm.currentUser = user
