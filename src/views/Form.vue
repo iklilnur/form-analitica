@@ -32,7 +32,11 @@
         padding-left: 0px;
       "
     >
-      <section id="logo" class="vc_row pb-50" style="background-color: #4d4e84">
+      <section
+        id="logo"
+        class="vc_row pb-150"
+        style="background-color: #4d4e84"
+      >
         <div class="container">
           <div class="row text-center pt-5" id="logo">
             <div class="col text-center">
@@ -48,7 +52,7 @@
         <!-- /.container -->
         <div class="one-row_bottom_divider pembatas" style="height: 180px">
           <svg
-            fill="#f4f7fb"
+            fill="#4d4e84"
             xmlns="http://www.w3.org/2000/svg"
             width="100%"
             height="182"
@@ -73,6 +77,7 @@
             <b-card
               class="p-sm-1 p-md-5 mx-sm-1 mx-md-auto"
               style="
+                margin-top: -12%;
                 box-shadow: 0px 0px 10px 0px rgb(59 115 197 / 25%);
                 max-width: 700px;
                 border-radius: 3em;
