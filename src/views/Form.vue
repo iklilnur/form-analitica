@@ -32,15 +32,41 @@
         padding-left: 0px;
       "
     >
+      <section class="vc_row pb-130" style="background-color: #060742">
+        <div class="container">
+          <div class="row text-center pt-5" id="logo">
+            <div class="col text-center">
+              <img
+                class="text-center"
+                src="../assets/golden-ticket-logo-fix.png"
+                style="width: 100%; max-width: 400px"
+              />
+            </div>
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.container -->
+        <div class="one-row_bottom_divider pembatas" style="height: 180px">
+          <svg
+            fill="#ff546c"
+            xmlns="http://www.w3.org/2000/svg"
+            width="100%"
+            height="182"
+            viewBox="0 0 1920 182"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M1921.91,916.348c0.33,39.216-.34,79.431,0,118.642Q957.95,1035.5-6,1035V853c40.431,10.8,81,19.794,122.5,27.149,62.957,11.157,117.371,15.375,180.742,21.116,79.864,7.236,165.843,26.989,255.045,42.232,109.142,18.65,243.949,40.091,308.265,44.243,137.637,8.886,313.056-2.783,504.066-36.2,127.4-22.286,223.4-43.261,354.45-45.248A1569.414,1569.414,0,0,1,1921.91,916.348Z"
+              transform="translate(0 -853)"
+            ></path>
+          </svg>
+        </div>
+      </section>
       <b-row class="w-100 py-5 p-md-5" align-v="center">
         <b-col
           class="px-5 pt-sm-3 pb-sm-3 pt-md-5 pb-md-5 text-center"
           cols="12"
         >
-          <img
-            src="../assets/golden-ticket-logo-fix.png"
-            style="width: 100%; max-width: 400px"
-          />
         </b-col>
         <b-col md="12">
           <b-card
@@ -736,23 +762,54 @@ export default {
 };
 </script>
 <style>
-@font-face { font-family: 'Glacial Indifference'; src: url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Regular.woff2") format("woff2"), url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Regular.woff") format("woff"); font-weight: normal; font-display: swap; font-style: normal; }
-@font-face { font-family: 'Glacial Indifference'; src: url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Bold.woff2") format("woff2"), url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Bold.woff") format("woff"); font-weight: bold; font-display: swap; font-style: normal; }
-html, body { max-width: 100vw; }
-.text-secondary {
-    color:#ff546c!important;
+@font-face {
+  font-family: "Glacial Indifference";
+  src: url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Regular.woff2")
+      format("woff2"),
+    url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Regular.woff")
+      format("woff");
+  font-weight: normal;
+  font-display: swap;
+  font-style: normal;
 }
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
-  font-weight: 700!important;
+@font-face {
+  font-family: "Glacial Indifference";
+  src: url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Bold.woff2")
+      format("woff2"),
+    url("https://analitica.dimsa.dev/goldenticket-unair/assets/fonts/GlacialIndifference-Bold.woff")
+      format("woff");
+  font-weight: bold;
+  font-display: swap;
+  font-style: normal;
+}
+html,
+body {
+  max-width: 100vw;
+}
+.text-secondary {
+  color: #ff546c !important;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-weight: 700 !important;
 }
 
 body {
-    font-family: Glacial Indifference!important;
-    font-weight: 400!important;
-    line-height: 1.7!important;
-    font-size: 18px!important;
-    color: #8b8cb3!important;
+  font-family: Glacial Indifference !important;
+  font-weight: 400 !important;
+  line-height: 1.7 !important;
+  font-size: 18px !important;
+  color: #8b8cb3 !important;
 }
 
 .button-submit {
