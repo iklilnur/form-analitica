@@ -47,7 +47,7 @@
             <div class="col text-center">
               <img
                 class="text-center"
-                src="../assets/golden-ticket-logo-bismillah-fix-alhamdulillah2.png"
+                src="../assets/golden-ticket-logo-bismillah-fix-alhamdulillah-mantap-min.png"
                 style="width: 100%; max-width: 400px"
               />
             </div>
@@ -585,14 +585,25 @@ export default {
         if (f.type == "pFileUpload") {
           if (f.isMultiple == true && f.isRequired == true) {
             if (
-              vm.$refs[f.name][0].getAcceptedFiles().length > 0 &&
-              vm.$refs[f.name][0].getUploadingFiles().length == 0
-            ) {
-              submitOk = true;
-            } else {
+                vm.$refs[f.name][0].getAcceptedFiles().length > 0 &&
+                vm.$refs[f.name][0].getUploadingFiles().length == 0
+              ) 
+              {
+                //ok, dont do anything
+              } 
+            else {
               submitOk = false;
               vm.errorMessage =
-                "Terdapat file wajib yang belum diupload atau sedang proses upload.";
+                `Kolom "${f.label}" belum diisi atau terdapat file yang sedang dalam proses upload.`;
+            }
+          }
+        }
+        else if(f.type == 'DateField'){
+          if(f.isRequired == true){
+            if(vm.newEntry[f.name] == '' || !vm.newEntry){
+              submitOk = false;
+              vm.errorMessage =
+                `Kolom "${f.label}" belum diisi.`;
             }
           }
         }
