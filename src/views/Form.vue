@@ -47,7 +47,7 @@
             <div class="col text-center">
               <img
                 class="text-center"
-                src="../assets/golden-ticket-logo-fix.png"
+                src="../assets/golden-ticket-logo-bismillah-fix-alhamdulillah2.png"
                 style="width: 100%; max-width: 400px"
               />
             </div>
@@ -202,10 +202,20 @@
                     <b-form-group
                       v-else-if="f.type == 'pFileUpload'"
                       class="mb-sm-2 mb-md-3"
-                      :label="f.isRequired == true ? f.label + ' *' : f.label"
+                      :label="f.isRequired == true ? (f.label + f.multipleLabel + ' *') : (f.label + f.multipleLabel)"
                       :label-for="f.name"
                     >
-                      <p>Format ( {{ f.fTypesLabel }} )</p>
+                      <p style="font-size:16px;">
+                        Format ( {{ f.fTypesLabel }} )
+                      </p>
+                      <p style="font-size:12px; line-height: 1.3em;">
+                          <b>
+                            Apabila file tidak bisa diupload/ditekan, 
+                            silahkan klik tombol “…” dipojok kanan atas 
+                            aplikasi dan buka di browser lain.
+                          </b>
+                      </p>
+
                       <vue-dropzone
                         v-if="f.isMultiple"
                         :ref="f.name"
@@ -762,6 +772,12 @@ export default {
 
         f.fTypes = fTypes;
         f.fTypesLabel = fTypesLabel;
+
+        f.multipleLabel = ""
+
+        if(f.isMultiple == true){
+          f.multipleLabel = " (bisa upload lebih dari 1 file)"
+        }
       }
       if (f.type == "SingleCheckBox") {
         vm.$set(vm.dummySingleCheckBox, f.name, false);
