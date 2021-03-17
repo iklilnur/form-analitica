@@ -47,7 +47,7 @@
             <div class="col text-center">
               <img
                 class="text-center"
-                src="../assets/golden-ticket-logo-bismillah-fix-alhamdulillah-mantap-min.png"
+                src="../assets/gt2-fix.png"
                 style="width: 100%; max-width: 400px"
               />
             </div>
@@ -626,10 +626,12 @@ export default {
           uid: vm.currentUser.uid,
         })
           .then(() => {
+            let formattedFid = vm.fid.replace('#','%23');
+
             if (vm.isMobile) {
-              window.location.href = "http://web.analitica.id/download";
+              window.location.href = `https://form.analitica.id/${formattedFid}?uid=${vm.currentUser.uid}`;
             } else {
-              window.location.href = "https://web.analitica.id/";
+              window.location.href = `https://form.analitica.id/${formattedFid}?uid=${vm.currentUser.uid}`;
             }
           })
           .catch((err) => {
