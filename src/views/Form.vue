@@ -47,7 +47,7 @@
             <div class="col text-center">
               <img
                 class="text-center"
-                src="../assets/gt2-fix.png"
+                src="../assets/logo-jtv-golden-ticket.png"
                 style="width: 100%; max-width: 400px"
               />
             </div>
