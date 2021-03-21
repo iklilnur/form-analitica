@@ -271,8 +271,7 @@
                 </center>
               </b-form>
               <b-card-text class="text-center" v-else>
-                Akun kamu sudah terdaftar pada tryout ini. Silahkan cek di
-                aplikasi Analitica kamu.
+                Formulir pendaftaran berhasil terkirim! Silahkan kembali ke aplikasi untuk melihat status pendaftaran.
               </b-card-text>
             </b-card>
           </b-col>
