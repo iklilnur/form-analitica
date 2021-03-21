@@ -202,18 +202,22 @@
                     <b-form-group
                       v-else-if="f.type == 'pFileUpload'"
                       class="mb-sm-2 mb-md-3"
-                      :label="f.isRequired == true ? (f.label + f.multipleLabel + ' *') : (f.label + f.multipleLabel)"
+                      :label="
+                        f.isRequired == true
+                          ? f.label + f.multipleLabel + ' *'
+                          : f.label + f.multipleLabel
+                      "
                       :label-for="f.name"
                     >
-                      <p style="font-size:16px;">
+                      <p style="font-size: 16px">
                         Format ( {{ f.fTypesLabel }} )
                       </p>
-                      <p style="font-size:12px; line-height: 1.3em;">
-                          <b>
-                            Apabila file tidak bisa diupload/ditekan, 
-                            silahkan klik tombol “…” dipojok kanan atas 
-                            aplikasi dan buka di browser lain.
-                          </b>
+                      <p style="font-size: 12px; line-height: 1.3em">
+                        <b>
+                          Apabila file tidak bisa diupload/ditekan, silahkan
+                          klik tombol “…” dipojok kanan atas aplikasi dan buka
+                          di browser lain.
+                        </b>
                       </p>
 
                       <vue-dropzone
@@ -221,6 +225,7 @@
                         :ref="f.name"
                         :id="f.name"
                         :options="f.fOptions"
+                        v-on:vdropzone-thumbnail="thumbnail"
                       ></vue-dropzone>
                       <b-form-file
                         v-else
@@ -271,7 +276,8 @@
                 </center>
               </b-form>
               <b-card-text class="text-center" v-else>
-                Formulir pendaftaran berhasil terkirim! Silahkan kembali ke aplikasi untuk melihat status pendaftaran.
+                Formulir pendaftaran berhasil terkirim! Silahkan kembali ke
+                aplikasi untuk melihat status pendaftaran.
               </b-card-text>
             </b-card>
           </b-col>
@@ -566,6 +572,48 @@ export default {
     vueDropzone,
   },
   methods: {
+    template: function () {
+      return `
+<div class="dz-preview dz-image-preview">
+    <div class="dz-image">
+      <img data-dz-thumbnail />
+    </div>
+      <div class="dz-details">
+    <div class="dz-size">
+    <span data-dz-size/>
+    </div>
+
+    <div class="dz-filename"><span data-dz-name></span></div>
+  </div>
+
+      <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress="" style="width: 100%;"></span></div>
+      
+      <div class="dz-success-mark">    <svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">      <title>Check</title>      <defs></defs>      <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">        <path d="M23.5,31.8431458 L17.5852419,25.9283877 C16.0248253,24.3679711 13.4910294,24.366835 11.9289322,25.9289322 C10.3700136,27.4878508 10.3665912,30.0234455 11.9283877,31.5852419 L20.4147581,40.0716123 C20.5133999,40.1702541 20.6159315,40.2626649 20.7218615,40.3488435 C22.2835669,41.8725651 24.794234,41.8626202 26.3461564,40.3106978 L43.3106978,23.3461564 C44.8771021,21.7797521 44.8758057,19.2483887 43.3137085,17.6862915 C41.7547899,16.1273729 39.2176035,16.1255422 37.6538436,17.6893022 L23.5,31.8431458 Z M27,53 C41.3594035,53 53,41.3594035 53,27 C53,12.6405965 41.3594035,1 27,1 C12.6405965,1 1,12.6405965 1,27 C1,41.3594035 12.6405965,53 27,53 Z" id="Oval-2" stroke-opacity="0.198794158" stroke="#747474" fill-opacity="0.816519475" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>      </g>    </svg>  </div>
+      <div class="dz-error-mark">    <svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">      <title>Check</title>      <defs></defs>      <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">        <path d="M23.5,31.8431458 L17.5852419,25.9283877 C16.0248253,24.3679711 13.4910294,24.366835 11.9289322,25.9289322 C10.3700136,27.4878508 10.3665912,30.0234455 11.9283877,31.5852419 L20.4147581,40.0716123 C20.5133999,40.1702541 20.6159315,40.2626649 20.7218615,40.3488435 C22.2835669,41.8725651 24.794234,41.8626202 26.3461564,40.3106978 L43.3106978,23.3461564 C44.8771021,21.7797521 44.8758057,19.2483887 43.3137085,17.6862915 C41.7547899,16.1273729 39.2176035,16.1255422 37.6538436,17.6893022 L23.5,31.8431458 Z M27,53 C41.3594035,53 53,41.3594035 53,27 C53,12.6405965 41.3594035,1 27,1 C12.6405965,1 1,12.6405965 1,27 C1,41.3594035 12.6405965,53 27,53 Z" id="Oval-2" stroke-opacity="0.198794158" stroke="#747474" fill-opacity="0.816519475" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>      </g>    </svg>  </div>
+      
+</div>
+      `;
+    },
+    thumbnail: function (file, dataUrl) {
+      var j, len, ref, thumbnailElement;
+      if (file.previewElement) {
+        file.previewElement.classList.remove("dz-file-preview");
+        ref = file.previewElement.querySelectorAll("[data-dz-thumbnail-bg]");
+        for (j = 0, len = ref.length; j < len; j++) {
+          thumbnailElement = ref[j];
+          thumbnailElement.alt = file.name;
+          thumbnailElement.style.backgroundImage = 'url("' + dataUrl + '")';
+        }
+        return setTimeout(
+          (function (_this) {
+            return function () {
+              return file.previewElement.classList.add("dz-image-preview");
+            };
+          })(this),
+          1
+        );
+      }
+    },
     async onSubmit(event) {
       const vm = this;
       const createFormResponse = firebase
@@ -584,25 +632,20 @@ export default {
         if (f.type == "pFileUpload") {
           if (f.isMultiple == true && f.isRequired == true) {
             if (
-                vm.$refs[f.name][0].getAcceptedFiles().length > 0 &&
-                vm.$refs[f.name][0].getUploadingFiles().length == 0
-              ) 
-              {
-                //ok, dont do anything
-              } 
-            else {
+              vm.$refs[f.name][0].getAcceptedFiles().length > 0 &&
+              vm.$refs[f.name][0].getUploadingFiles().length == 0
+            ) {
+              //ok, dont do anything
+            } else {
               submitOk = false;
-              vm.errorMessage =
-                `Kolom "${f.label}" belum diisi atau terdapat file yang sedang dalam proses upload.`;
+              vm.errorMessage = `Kolom "${f.label}" belum diisi atau terdapat file yang sedang dalam proses upload.`;
             }
           }
-        }
-        else if(f.type == 'DateField'){
-          if(f.isRequired == true){
-            if(vm.newEntry[f.name] == '' || !vm.newEntry){
+        } else if (f.type == "DateField") {
+          if (f.isRequired == true) {
+            if (vm.newEntry[f.name] == "" || !vm.newEntry) {
               submitOk = false;
-              vm.errorMessage =
-                `Kolom "${f.label}" belum diisi.`;
+              vm.errorMessage = `Kolom "${f.label}" belum diisi.`;
             }
           }
         }
@@ -625,7 +668,7 @@ export default {
           uid: vm.currentUser.uid,
         })
           .then(() => {
-            let formattedFid = vm.fid.replace('#','%23');
+            let formattedFid = vm.fid.replace("#", "%23");
 
             if (vm.isMobile) {
               window.location.href = `https://form.analitica.id/${formattedFid}?uid=${vm.currentUser.uid}`;
@@ -776,19 +819,21 @@ export default {
         });
 
         f.fOptions = {
-          url: "https://httpbin.org/post",
+          url: "https://analitica.id/post",
           maxFilesize: f.maxSize, // MB
           addRemoveLinks: true,
+            thumbnailWidth: 150,
           acceptedFiles: fTypes,
+          previewTemplate: vm.template(),
         };
 
         f.fTypes = fTypes;
         f.fTypesLabel = fTypesLabel;
 
-        f.multipleLabel = ""
+        f.multipleLabel = "";
 
-        if(f.isMultiple == true){
-          f.multipleLabel = " (bisa upload lebih dari 1 file)"
+        if (f.isMultiple == true) {
+          f.multipleLabel = " (bisa upload lebih dari 1 file)";
         }
       }
       if (f.type == "SingleCheckBox") {
