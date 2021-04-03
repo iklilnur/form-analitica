@@ -76,7 +76,7 @@
                 border-radius: 3em;
               "
             >
-              <b-form v-if="!accountAlreadySubmitted && formIsOpen" @submit="onSubmit">
+              <b-form v-if="!accountAlreadySubmitted" @submit="onSubmit">
                 <b-row v-for="f in form.segments" :key="f.name">
                   <b-col cols="12" class="text-left">
                     <!-- Type HeaderText -->
@@ -279,7 +279,7 @@
                   </button>
                 </center>
               </b-form>
-              <b-card-text v-else-if="!formIsOpen">
+              <b-card-text class="text-center" v-else-if="!formIsOpen">
                 {{ closeText }}
               </b-card-text>
               <b-card-text class="text-center" v-else>
@@ -812,14 +812,14 @@ export default {
         f.type !== "Divider" &&
         f.type !== "SingleCheckBox" &&
         f.type !== "LinkText" && 
-        f.type !== "FormStatus"
+        f.type !== "FormStatus" 
       ) {
         vm.$set(vm.newEntry, f.name, "");
       }
 
       if(f.type == "FormStatus"){
-        vm.formIsOpen = f.isOpen;
-        vm.closeText = f.text;
+        vm.formIsOpen = true;
+        vm.closeText = f.closeText
       }
 
       if (f.type == "pFileUpload") {
@@ -837,6 +837,7 @@ export default {
         f.fOptions = {
           url: "https://analitica.id/post",
           maxFilesize: f.maxSize, // MB
+          capture:"filesystem",
           addRemoveLinks: true,
             thumbnailWidth: 150,
           acceptedFiles: fTypes,
