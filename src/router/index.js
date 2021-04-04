@@ -18,11 +18,11 @@ function configRoutes() {
       name: 'Form',
       component: Form
     },
-    {
-      path: '/tes/:fid',
-      name: 'TestForm',
-      component: TestForm
-    },
+    // {
+    //   path: '/tes/:fid',
+    //   name: 'TestForm',
+    //   component: TestForm
+    // },
     { path: '*', redirect: '/' }
   ]
 }
