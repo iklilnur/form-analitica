@@ -50,7 +50,7 @@
             <div class="col text-center">
               <img
                 class="text-center"
-                src="../assets/logo-jtv-golden-ticket.png"
+                :src="formLogo"
                 style="width: 100%; max-width: 400px"
               />
             </div>
@@ -575,6 +575,7 @@ export default {
       accountAlreadySubmitted: false,
       formIsOpen: true,
       closeText: "",
+      formLogo: "",
     };
   },
   components: {
@@ -812,9 +813,14 @@ export default {
         f.type !== "Divider" &&
         f.type !== "SingleCheckBox" &&
         f.type !== "LinkText" && 
-        f.type !== "FormStatus"
+        f.type !== "FormStatus" &&
+        f.type !== 'FormLogo'
       ) {
         vm.$set(vm.newEntry, f.name, "");
+      }
+
+      if(f.type == "FormLogo"){
+        vm.formLogo = f.link;
       }
 
       if(f.type == "FormStatus"){
