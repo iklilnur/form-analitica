@@ -845,8 +845,8 @@ export default {
           maxFilesize: f.maxSize, // MB
           addRemoveLinks: true,
             thumbnailWidth: 150,
-          acceptedFiles: fTypes,
-          previewTemplate: vm.template(),
+          acceptedFiles: `image/${fTypes}`,
+          previewTemplate: vm.template()
         };
 
         f.fTypes = fTypes;
