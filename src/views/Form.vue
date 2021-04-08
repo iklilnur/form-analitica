@@ -46,7 +46,7 @@
         style="background-color: #4d4e84; background-repeat: repeat"
       >
         <div class="container">
-          <div class="row text-center pt-5" id="logo">
+          <div class="row text-center pt-5 mb-3" id="logo">
             <div class="col text-center">
               <img
                 class="text-center"
@@ -294,7 +294,7 @@
               >Jika terdapat pertanyaan, silahkan bertanya pada narahubung kami
               atau melalui: </b
             ><br />
-            <a href="https://t.me/joinchat/Hwf24kqljuZmRGRF" target="_blank">
+            <a :href="linkTelegram" target="_blank">
               <b-button
                 size="lg"
                 class="mt-3"
@@ -576,6 +576,7 @@ export default {
       formIsOpen: true,
       closeText: "",
       formLogo: "",
+      linkTelegram: "",
     };
   },
   components: {
@@ -814,9 +815,14 @@ export default {
         f.type !== "SingleCheckBox" &&
         f.type !== "LinkText" && 
         f.type !== "FormStatus" &&
-        f.type !== 'FormLogo'
+        f.type !== 'FormLogo' && 
+        f.type !== 'LinkTelegram'
       ) {
         vm.$set(vm.newEntry, f.name, "");
+      }
+
+      if(f.type == "LinkTelegram"){
+        vm.linkTelegram = f.link;
       }
 
       if(f.type == "FormLogo"){
