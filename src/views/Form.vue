@@ -217,9 +217,9 @@
                       </p>
                       <p style="font-size: 12px; line-height: 1.3em">
                         <b>
-                          Apabila file tidak bisa diupload/ditekan, silahkan
-                          klik tombol “…” dipojok kanan atas aplikasi dan buka
-                          di browser lain.
+                          Apabila file tidak bisa diupload/ditekan, silahkan klik tombol “…” dipojok kanan atas aplikasi 
+                          dan buka di browser lain (disarankan google chrome) atau 
+                          kunjungi link alternatif pendaftaran melalui pc/laptop.
                         </b>
                       </p>
 
