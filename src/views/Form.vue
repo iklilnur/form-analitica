@@ -100,6 +100,7 @@
                       v-else-if="f.type == 'LinkText'"
                       class="mb-3 mt-3"
                       :href="f.link"
+                      target="_blank"
                     >
                       {{ f.text }}
                     </a>
